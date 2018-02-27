@@ -1,14 +1,13 @@
 $(document).ready(function(){
     console.log("ready");
     var URL = "https://api.giphy.com/v1/gifs/search?q=";
-    var KEY = "&api_key=dc6zaTOxFJmzC&limit=5";
+    var KEY = "&api_key=dc6zaTOxFJmzC&limit=11";
     var TOPICS = [
         "Audi",
         "Ferrari",
         "Lamborghini",
         "Bentley",
         "BMW",
-        "Mersedes-Benz"
     ];
     //Diplay Topics
     for(var index = 0; index<TOPICS.length; index++){
@@ -16,9 +15,14 @@ $(document).ready(function(){
     }
     //Display Input Element and Button to add more topics
     $(".aside").append("<input type = 'text' placeholder = 'add your own!' id = 'user-input'></input>");
-    $(".aside").append("<input type = 'button' value = 'add' class = 'add-btn'></input>");
-    $(".aside").append("<input type = 'button' value = 'clear' class = 'clear-btn'></input>");
+    $(".aside").append("<input type = 'button' value = 'add topic' class = 'add-btn'></input>");
+    // $(".aside").append("<input type = 'button' value = 'clear gifs' class = 'clear-btn'></input>");
+
+    // on click events
+    //=============================================================================================================
+
     $(document).on("click", ".request-btn", function(){
+        $(".article *").remove();
         //forming url
         var queryURL = URL + $(this).val() + KEY;
         //ajax call
@@ -27,7 +31,11 @@ $(document).ready(function(){
             method: "GET"
         }).done(function(response){
             for(var index = 1; index<response.data.length; index++){
-                $(".article").append(`<img 
+                var idSelector = "#"+response.data[index].id;
+                $(".article").append(`<div class = 'display-card' id = '${response.data[index].id}'></div>`);
+                $(idSelector).append(`<div>Rating: ${response.data[index].rating}</div>`);
+                //image tag with data to switch between animated and still states
+                $(idSelector).append(`<img
                 src = '${response.data[index].images.fixed_height_still.url}' 
                 data-still = '${response.data[index].images.fixed_height_still.url}'
                 data-animate = '${response.data[index].images.fixed_height.url}'
@@ -37,6 +45,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $(document).on("click", ".display-gif", function(){
         var state = $(this).attr("data-state");
         if(state == "still"){
@@ -52,12 +61,14 @@ $(document).ready(function(){
 
     $(document).on("click", ".add-btn", function(){
         console.log("adding..");
-        // var text = $('#user-input').val();
-        $(".section").append(`<input type ='button' class = 'request-btn' value = '${$('#user-input').val()}'></input>`);
-        $("#user-input").val("");
+        var text = $('#user-input').val();
+        if(text.length!=0){
+            $(".section").append(`<input type ='button' class = 'request-btn' value = '${text}'></input>`);
+            $("#user-input").val("");
+        }
     });
 
-    $(document).on("click", ".clear-btn", function(){
-        $(".article *").remove();
-    });
+    // $(document).on("click", ".clear-btn", function(){
+        
+    // });
 })

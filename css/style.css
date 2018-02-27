@@ -40,10 +40,11 @@ h1{
     font-size: 27px;
 }
 #user-input{
-    width: 100%;
+    width: auto;
     outline: none;
     border: 2px solid #acacac;
     border-radius: 3px;
+    font-size: 16px;
 }
 #user-input:focus{
     border: 2px solid #f75959;
@@ -51,23 +52,34 @@ h1{
 .request-btn,
 .add-btn,
 .clear-btn{
-    font-size: 18px;
+    font-size: 16px;
     color: #ffffff;
     background: #f75959;
     outline: none;
     border: none;
-    margin: 2px;
+    margin-right: 3px;
     border-radius:3px;
 }
 .request-btn{
     padding: 1rem;
+}
+.add-btn,
+.clear-btn{
+    margin-top: 2px;
+    padding: 3px;
+    width: max-content;
 }
 .request-btn:hover,
 .clear-btn:hover,
 .add-btn:hover{
     background: #962020;
 }
-.display-gif{
+.display-card{
+    display: inline-block;
     height: 150px;
     margin: 2px;
+
+}
+.display-gif{
+    height: 100%;
 }
