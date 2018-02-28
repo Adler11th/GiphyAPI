@@ -1,7 +1,7 @@
 $(document).ready(function(){
     console.log("ready");
     var URL = "https://api.giphy.com/v1/gifs/search?q=";
-    var KEY = "&api_key=dc6zaTOxFJmzC&limit=11";
+    var KEY = "&api_key=dc6zaTOxFJmzC&limit=11&lang=en";
     var TOPICS = [
         "Audi",
         "Ferrari",
@@ -10,13 +10,16 @@ $(document).ready(function(){
         "BMW",
     ];
     //Diplay Topics
-    for(var index = 0; index<TOPICS.length; index++){
-        $(".section").append(`<input type ='button' class = 'request-btn' value = '${TOPICS[index]}'></input>`);
+    function displayDefaultTopics() {
+        for (var index = 0; index < TOPICS.length; index++) {
+            $(".section").append(`<input type ='button' class = 'request-btn' value = '${TOPICS[index]}'></input>`);
+        }
     }
-    //Display Input Element and Button to add more topics
-    $(".aside").append("<input type = 'text' placeholder = 'add your own!' id = 'user-input'></input>");
+    //Display Input Element and Button to add more topics and default topics
+    $(".aside").append("<input type = 'text' placeholder = 'add make...' id = 'user-input' spellcheck = 'true'></input>");
     $(".aside").append("<input type = 'button' value = 'add topic' class = 'add-btn'></input>");
-    // $(".aside").append("<input type = 'button' value = 'clear gifs' class = 'clear-btn'></input>");
+    $(".aside").append("<input type = 'button' value = 'clear topics' class = 'clear-btn'></input>");
+    displayDefaultTopics();
 
     // on click events
     //=============================================================================================================
@@ -24,7 +27,7 @@ $(document).ready(function(){
     $(document).on("click", ".request-btn", function(){
         $(".article *").remove();
         //forming url
-        var queryURL = URL + $(this).val() + KEY;
+        var queryURL = URL + $(this).val()+"+car"+ KEY;
         //ajax call
         $.ajax({
             url: queryURL,
@@ -68,7 +71,8 @@ $(document).ready(function(){
         }
     });
 
-    // $(document).on("click", ".clear-btn", function(){
-        
-    // });
+    $(document).on("click", ".clear-btn", function(){
+        $(".section *").remove();
+        displayDefaultTopics();
+    });
 })
